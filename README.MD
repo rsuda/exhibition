@@ -1,14 +1,14 @@
 # EXHIBITION E-COMMERCE STORE
 
-  Project Statement and Project Proposal
-			   Team 7
-   	  Nolan Schneider, Garrett Smeall, Dylan Burton, Robin Suda
-				February 19th 2020
+##  Project Statement and Project Proposal
+    ###			   Team 7
+   	 #### Nolan Schneider, Garrett Smeall, Dylan Burton, Robin Suda
+	####			February 19th 2020
 
-Abstract
+##Abstract
 	Amazon takes a huge portion of the ecommerce market share because of their superior technologies  but we plan to create a new website that will compete directly with Amazon. To compete we plan to implement similar technologies as Amazon, plus technologies not offered by any other e-commerce store. Firstly, our user interface will be easy to use and offer many functions for the best experience. The advanced checkout system will let you save paying information, get Reward points and even allow promo codes. Any seller will be allowed to sell items, items can be added with detailed descriptions and photos. On top of all that customers can compare products from our site, to similar products on other sites, so they know they are getting the best deal.
 
-Description
+##Description
 Few E-commerce stores are competitive with Amazon, making Amazon as close as a company can get to a monopoly. Amazon has such a hold on this market because of their large range of products, company and individual seller system, easy to user interface, and a seamless checkout and pay systems. Amazon is the best at what they do, and our solution is to do it even better!
 Our goal is to directly compete with Amazon by having equal or higher in quality for the following capabilities offered by Amazon; range in products, checkout and pay systems, company and individual seller system, and the user interface. In addition we plan to implement functionalities that are not currently offered by Amazon or its few competitors. Firstly, a functionality to compare the product that is selling on our site to the same product that is selling on another site, allowing the customer to ensure they are getting the best price across all E-commerce stores. We also plan to implement a system that monitors how much the seller can place in the description area, as well as track if the description of the item makes logical sense. A huge flaw on many E-commerce stores is that they are typically unfiltered, much like the steam store that allows anyone to place their software on the store. We would be like the Epic Games Store, which is monitored to ensure everything placed on their site is secure.
 The user interface is one of the most important aspects of a website, when designing our website we will keep this in mind. Powered by the REACT framework we plan to implement a state of the art user interface, that few competitors can even compare. The website will be split in a navigation section and a store section.The navigation section is independent from the store sections. From the navigation section you can access your cart, order history, log in/out, etc. The store section is where you browse the products. The search function will be accessible from most of the site, as it’s the easiest way to find a product. When searching the site our systems will handle autocomplete and predict what the customers are searching for based on your previous search history. Each product will be categorized so customers can browse through categories and subcategories to find exactly what they are looking for. Each product will be displayed in a grid pattern. When an individual product is selected, the site will open a new view that gives detailed information about that product. From there it can be added to the cart and or continue searching.
