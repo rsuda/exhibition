@@ -36,7 +36,7 @@ public class loginRegister extends HttpServlet {
 		if(submit.equals("login") && c !=null && c.getName() != null)
 		{
 			request.setAttribute("message",  c.getName());
-			request.getRequestDispatcher("member.jsp").forward(request,  response);
+			request.getRequestDispatcher("home.jsp").forward(request,  response);
 		}
 		else if(submit.equals("register")) 
 		{
