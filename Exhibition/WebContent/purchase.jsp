@@ -7,7 +7,7 @@
 <title>Purchase</title>
 </head>
 <body>
-<h1>Please select your size and finalize order, ${message}</h1>
+<h1>Please select your size and finalize order, ${first}</h1>
 <form action="PurchaseNav" method="post">
 	<img alt="Error loading image" src="${image}" name="image" value="${image}">
 	<label for="shirtsize">Choose a size:</label>

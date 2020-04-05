@@ -14,12 +14,20 @@
 				<td align = "center"><h3 style="color: black">REGISTRATION PAGE</h3></td>
 			</tr>
 			<tr>
-				<td>User Name</td>
-				<td><input type="text" name="username"></td>
+				<td>Email</td>
+				<td><input type="text" name="email"></td>
 			</tr>
 			<tr>
-				<td>Name</td>
-				<td><input type="text" name="name"></td>
+				<td>First Name</td>
+				<td><input type="text" name="firstname"></td>
+			</tr>
+			<tr>
+				<td>Last Name</td>
+				<td><input type="text" name="lastname"></td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td><input type="text" name="address"></td>
 			</tr>
 			<tr>
 				<td>Password</td>

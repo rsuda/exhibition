@@ -7,8 +7,9 @@
 <title>Home</title>
 </head>
 <body>
-	<h3>Welcome ${message}</h3>
-	<h3 id = message>${message}</h3>
+	<h3>Welcome ${lastname}</h3>
+	<input type = "text" name = "firstname2" value = "${firstname}" hidden = "hidden"></input>
+	<h3 id = firstname>${firstname}</h3>
 	<div class="topnav">
 		<a class="active" href="#home">Home</a> <a href="#news">News</a> <a
 			href="#contact">Contact</a> <a href="#about">About</a>

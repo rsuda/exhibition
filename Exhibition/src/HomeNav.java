@@ -35,8 +35,8 @@ public class HomeNav extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String product = request.getParameter("product");
-		String message = request.getParameter("message");
-		request.setAttribute("message", message);
+		String firstname = request.getParameter("firstname2");
+		request.setAttribute("first", firstname);
 		request.setAttribute("image",  product);
 		request.getRequestDispatcher("purchase.jsp").forward(request,  response);
 		

@@ -1,20 +1,34 @@
 
 public class Customer {
 	
-	private String username;
-	private String name;
+	private String firstname;
+	private String lastname;
+	private String email;
+	private String address;
 	private String password;
-	public String getUsername() {
-		return username;
+	public String getFirstName() {
+		return firstname;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFirstName(String firstname) {
+		this.firstname = firstname;
 	}
-	public String getName() {
-		return name;
+	public String getLastName() {
+		return lastname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setLastName(String lastname) {
+		this.lastname = lastname;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getPassword() {
 		return password;

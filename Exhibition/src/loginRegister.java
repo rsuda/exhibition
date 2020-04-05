@@ -27,22 +27,31 @@ public class loginRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userName = request.getParameter("username");
+		String firstName = request.getParameter("firstname");
+		String lastname = request.getParameter("lastname");
+		String email = request.getParameter("email");
+		String address = request.getParameter("address");
 		String password = request.getParameter("password1");
 		//String password = request.getParameter("password");
 		String submit = request.getParameter("submit");
 		CustomerDAO cd = new CustomerDAOImpl();
-		Customer c = cd.getCustomer(userName, password);
-		if(submit.equals("login") && c !=null && c.getName() != null)
+		Customer c = cd.getCustomer(email, password);
+		if(submit.equals("login") && c !=null && c.getFirstName() != null)
 		{
-			request.setAttribute("message",  c.getName());
+			request.setAttribute("firstname",  c.getFirstName());
+			request.setAttribute("lastname",  c.getLastName());
+			request.setAttribute("email",  c.getEmail());
+			request.setAttribute("address",  c.getPassword());
+			request.setAttribute("password",  c.getPassword());
 			request.getRequestDispatcher("home.jsp").forward(request,  response);
 		}
 		else if(submit.equals("register")) 
 		{
-			c.setName(request.getParameter("name"));
+			c.setFirstName(firstName);
+			c.setLastName(lastname);
+			c.setEmail(email);
+			c.setAddress(address);
 			c.setPassword(password);
-			c.setUsername(userName);
 			cd.insertCustomer(c);
 			request.setAttribute("successMessage", "Registration complete, please login!");
 			request.getRequestDispatcher("login.jsp").forward(request,  response);
