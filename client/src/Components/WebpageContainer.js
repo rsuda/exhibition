@@ -15,8 +15,7 @@ class WebpageContainer extends React.Component{
     };
 }
 handleClick = e => {
-
-        console.log('click ', e);
+    console.log('click ', e);
         this.setState({
           current: e.key,
         });
@@ -31,9 +30,13 @@ return (
     <Header className="header">
       <div className="logo" />
       <Menu onClick={this.handleClick} theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="Login">Login/Logout</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
+        <Menu.Item key="Home">Home</Menu.Item>
+        
+
+        <Menu.Item key="Sell">Sell</Menu.Item>
+        <Menu.Item key="cart">cart</Menu.Item>
+        <Menu.Item key="accountSetting">Account Settings</Menu.Item>
+        <Menu.Item key="Login/Logout">nav 3</Menu.Item>
       </Menu>
     </Header>
 
