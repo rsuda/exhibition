@@ -1,100 +1,68 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
-import Login from "./Login.js";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+import { Layout ,Affix} from 'antd';
+import WebpageNav from './WebpageNav.js';
+import ItemSearch from './ItemSearch.js';
+import Item from './Item.js';
+import Login from './Login.js';
+import Cart from './Cart.js'
+import Home from './Home.js'
+import Sell from './Sell.js';
+import AccountSettings from './AccountSettings.js';
+import UserContext from './UserProvider.js'
+import Signup from './Signup.js';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import PreviousOrders from './PreviousOrders.js';
+import Checkout from './Checkout.js';
+import AddItem from './AddItem.js';
+
+
 class WebpageContainer extends React.Component{
     constructor(props){
         super(props)
-    this.State = {
-    };
+        this.state = {
+          currentTab: "Home",
+          username:"Not-Logged-In",
+          login:false,
+          search:"Recommended"
+        };
+        console.log("constructor");
 }
-handleClick = e => {
-    console.log('click ', e);
-        this.setState({
-          current: e.key,
-        });
-    };
-   
+//static contextType = UserContext;
+
+homeCallBackFunction = (data) => {
+  console.log(data.username);
+  this.setState({
+    username:data.username,
+    search:data.search
+  });
+}
+
 render(){
-    let { SubMenu } = Menu;
-    let { Header, Content, Sider } = Layout;
+  //console.log("Current Tab:" + this.state.currentTab);
+  let page = "";
+  // page = this.SwitchPage1();
 return ( 
-     <Layout>
-
-    <Header className="header">
-      <div className="logo" />
-      <Menu onClick={this.handleClick} theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="Home">Home</Menu.Item>
-        
-
-        <Menu.Item key="Sell">Sell</Menu.Item>
-        <Menu.Item key="cart">cart</Menu.Item>
-        <Menu.Item key="accountSetting">Account Settings</Menu.Item>
-        <Menu.Item key="Login/Logout">nav 3</Menu.Item>
-      </Menu>
-    </Header>
-
-    <Layout>
-      <Sider width={200} className="site-layout-background">
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
-          style={{ height: '100%', borderRight: 0 }}
-        >
-          <SubMenu
-            key="sub1"
-            title={
-              <span>
-                <UserOutlined />
-                subnav 1
-              </span>
-            }
-          >
-            <Menu.Item key="1">option1</Menu.Item>
-            <Menu.Item key="2">option2</Menu.Item>
-            <Menu.Item key="3">option3</Menu.Item>
-            <Menu.Item key="4">option4</Menu.Item>
-          </SubMenu>
-          <SubMenu
-            key="sub2"
-            title={
-              <span>
-                <LaptopOutlined />
-                subnav 2
-              </span>
-            }
-          >
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </SubMenu>
-          <SubMenu
-            key="sub3"
-            title={
-              <span>
-                <NotificationOutlined />
-                subnav 3
-              </span>
-            }
-          >
-            <Menu.Item key="9">option9</Menu.Item>
-            <Menu.Item key="10">option10</Menu.Item>
-            <Menu.Item key="11">option11</Menu.Item>
-            <Menu.Item key="12">option12</Menu.Item>
-          </SubMenu>
-        </Menu>
-      </Sider>
+  <Router>
+     <Layout >
+        <WebpageNav username={this.state.username}/>
+        <ItemSearch username={this.state.username}/>   
+        <Switch> 
+          {console.log("testtest")}
+            <Route path="/" exact component={Home}/>  
+            <Route path="/Home/:search/:username" exact component={(props)=> <Home {...props}parentCallBackFunction = {this.homeCallBackFunction}  username={this.state.username} /> } />
+            <Route path="/Login" exact component={Login}/>
+            <Route path="/Cart/:username" exact component={(props)=> <Cart {...props} username={this.state.username}/>}/>
+            <Route path="/Sell/:username" exact component={(props)=> <Sell {...props} username={this.state.username}/>}/>
+            <Route path="/PreviousOrders" exact component={PreviousOrders}/>
+            <Route path="/AccountSettings" exact component={AccountSettings }/>
+            <Route path="/Signup" exact component={Signup}/>
+            <Route path="/Item" exact component={Item}/>
+            <Route path="/Checkout" exact component={Checkout}/>
+            <Route path="/AddItem" exact component={AddItem}/>
+        </Switch>
       
-    </Layout>
-  </Layout>
+      </Layout>
+    </Router>
     );
         }
 }
