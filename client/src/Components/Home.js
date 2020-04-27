@@ -13,20 +13,48 @@ class Home extends React.Component{
         username:this.props.username,
         search:"Recommended"
     }
+    homeFetch(SIGNUP_INFOMATION){
+        let mysqlServer="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081";
+        let serverRoute="/search:";
+        fetch( mysqlServer + serverRoute + JSON.stringify(SIGNUP_INFOMATION))
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(result);
+            
+            console.log("CONNECTTED TO SERVER");
+      
+          },
+          (error) => {
+           
+            console.log("FAILED TO CONNECT TO SERVER");
+
+          }
+        )
+      }
     updateWebcontainer(){
         let {search, username} = this.props.match.params;
         console.log(this.state.username+ " -> " + username + "\n " + this.state.search + " " +  search);
         if(!(username == this.state.username)){
-            console.log("Update")
+            console.log("Home -> Update.username")
             this.setState(
                 {
                     username:username,
-                    search:search
                 }
             );
             this.props.parentCallBackFunction({search:search,username:username})
         }
-        console.log("NO UPDATE")
+        if(!(this.state.search == search)){
+            console.log("Home -> Update.search");
+            this.setState(
+                {
+                    search:search
+                }
+            );
+            this.homeFetch({search:search});
+
+        }
+        console.log("Home -> NO UPDATE")
 
     }
     render(){

@@ -53,7 +53,7 @@ return (
             <Route path="/Login" exact component={Login}/>
             <Route path="/Cart/:username" exact component={(props)=> <Cart {...props} username={this.state.username}/>}/>
             <Route path="/Sell/:username" exact component={(props)=> <Sell {...props} username={this.state.username}/>}/>
-            <Route path="/PreviousOrders" exact component={PreviousOrders}/>
+            <Route path="/PreviousOrders/:username" exact component={(props)=> <PreviousOrders {...props} username={this.state.username}/>}/>
             <Route path="/AccountSettings" exact component={AccountSettings }/>
             <Route path="/Signup" exact component={Signup}/>
             <Route path="/Item" exact component={Item}/>

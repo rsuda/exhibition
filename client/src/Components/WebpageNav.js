@@ -31,17 +31,16 @@ class WebpageNav extends React.Component {
         if(this.props.username == ("Not-Logged-In" || "" || " ") ){
             menu1 = (
                 <Menu onClick={this.handleClick} theme="dark" defaultSelectedKeys={['2']}>
-                    <Menu.Item key= "orders"><Link to="/PreviousOrders" > Previous Orders </Link></Menu.Item>
-                    <Menu.Item key= "settings"><Link to="/AccountSettings" > Account Settings </Link></Menu.Item>
                     <Menu.Item key= "Login"> <Link to="/Login" > Log In </Link></Menu.Item>
                     <Menu.Item key= "signup"><Link to="/Signup" > Sign Up </Link></Menu.Item>
                 </Menu>
             );
         }else{
             loginText = this.props.username;
+            let routePathPreviousOrder = "/PreviousOrder/" + this.props.username;
             menu1 = (
                 <Menu onClick={this.handleClick} theme="dark" defaultSelectedKeys={['2']}>
-                    <Menu.Item key= "orders"><Link to="/PreviousOrders" > Previous Orders </Link></Menu.Item>
+                    <Menu.Item key= "orders"><Link to={routePathPreviousOrder} > Previous Orders </Link></Menu.Item>
                     <Menu.Item key= "settings"><Link to="/AccountSettings" > Account Settings </Link></Menu.Item>
                     <Menu.Item key= "Logout"> <Link to="/Login" > Logout </Link></Menu.Item>
 

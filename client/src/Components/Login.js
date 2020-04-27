@@ -156,7 +156,7 @@ onFinish = values => {
         </div>
       );
     } else if(this.state.isLogin){
-      let routePath = "/Home/" + "/recommended/" + this.state.username;
+      let routePath = "/Home" + "/recommended/" + this.state.username;
         return (
           <div>
             <h1>test</h1>
