@@ -15,21 +15,28 @@ class PreviousOrders extends React.Component {
     super(props);
     this.state = {
         connected:false,
-        responce:null
+        response:null
     }
 }
 
-loginFetch(PREVIOUS_ORDER){
+previousOrderFetch(PREVIOUS_ORDER){
     let mysqlServer="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081";
-    let serverRoute="/PreviousOrder:";
-    console.log(PREVIOUS_ORDER)
+    let serverRoute="/PreviousOrders:";
+    //console.log(PREVIOUS_ORDER)
     fetch( mysqlServer + serverRoute + "" +JSON.stringify(PREVIOUS_ORDER) + "" )
     .then(res => res.json())
     .then(
       (result) => {
-          console.log("Reponce -> " + result)
+       let stringJSON = "{\"data\": " + JSON.stringify(result) +  "}"
+       console.log(stringJSON);
+       stringJSON = JSON.parse(stringJSON)
+
+       //console.log(stringJSON)
+       //let resultJSON = JSON.parse(stringJSON)
+          //console.log("Reponse -> " + JSON.parse(stringJSON))
+          
         this.setState({
-            responce:result
+            response:stringJSON,
         });
         this.connectedToServer(true);
         console.log("CONNECTTED TO SERVER");
@@ -45,8 +52,8 @@ loginFetch(PREVIOUS_ORDER){
 connectedToServer(connected){
     if(connected){
         //CONNECTED TO SERVER
-        console.log(this.state.responce)
-        if(this.state.responce ){
+        console.log("PeviousOrder.data ->" + Object.keys(this.state.response))
+        if(this.state.response){
             this.setState(
                 {
                     connected:true
@@ -63,7 +70,7 @@ onChange(pageNumber) {
   console.log("Page: ", pageNumber);
 }
 componentDidMount(){
-  this.loginFetch({username:this.props.username});
+  this.previousOrderFetch({username:this.props.username});
 }
   render() {
     return (
@@ -71,7 +78,7 @@ componentDidMount(){
         <Divider orientation="left" style={{ color: "#333", fontWeight: "normal" }}>
           Previous Orders
         </Divider>
-        <MiniItemRow />
+        <MiniItemRow items={[{}]} />
         <Pagination defaultCurrent={1} total={200} onChange={this.onChange} />
       </div>
     );

@@ -37,12 +37,12 @@ class WebpageNav extends React.Component {
             );
         }else{
             loginText = this.props.username;
-            let routePathPreviousOrder = "/PreviousOrder/" + this.props.username;
+            let routePathPreviousOrder = "/PreviousOrders/" + this.props.username;
             menu1 = (
                 <Menu onClick={this.handleClick} theme="dark" defaultSelectedKeys={['2']}>
                     <Menu.Item key= "orders"><Link to={routePathPreviousOrder} > Previous Orders </Link></Menu.Item>
                     <Menu.Item key= "settings"><Link to="/AccountSettings" > Account Settings </Link></Menu.Item>
-                    <Menu.Item key= "Logout"> <Link to="/Login" > Logout </Link></Menu.Item>
+                    <Menu.Item key= "Logout"> <Link to="/Home/Recommended/Not-Logged-In" > Logout </Link></Menu.Item>
 
                 </Menu>
             );

@@ -9,14 +9,16 @@ constructor(props){
         super(props);
         this.state = {
             currentTab: 'MiniItem',
-            itemSelected: null,
+            itemSelected: false,
+            item:null
         };
     }
     //static contextType = UserContext
 
-handleChange = (SELECTED_ITEM) =>{
+handleChange(SELECTED_ITEM){
     this.setState({
-        itemSelected: SELECTED_ITEM,
+        itemSelected: true,
+        item:SELECTED_ITEM
     });
     
 }
@@ -26,14 +28,15 @@ handleChange = (SELECTED_ITEM) =>{
         return (
             
                 <div>
-                    <img onClick={() => this.handleChange("T-Shirt-Bundle")}src ={s4} alt="test" height = "300px" width = "300px"/>      
-                    <center>T-Shirt Bundle</center>
+                    <img onClick={() => this.handleChange(this.props.uniqueid)}src ={s4} alt={"ALT"} height = "300px" width = "300px"/>      
+                    <center>{this.props.name}</center>
                 </div>
             
         );
       }else{
+          let routePath = "/Item/"+ this.state.item;
           return (
-            <Redirect to="/Item"/>
+            <Redirect to={routePath}/>
           );
       }
     }

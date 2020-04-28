@@ -4,15 +4,9 @@ import { Form, Input, InputNumber, Button } from "antd";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import "./CSS_FILES/AddItem.css";
+import 'console.image';
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}
+
 
 const layout = {
   labelCol: { span: 8 },
@@ -25,15 +19,76 @@ class AddItem extends React.Component {
     previewImage: "",
     previewTitle: "",
     fileList: [],
+    responce:null,
+    imageList:[],
+    connected:false
   };
+  getBase64 = (file) =>{
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+  addItemFetch(ADD_ITEM_ORDER){
+    let mysqlServer="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081";
+    let serverRoute="/AddItem:";
+    console.log(ADD_ITEM_ORDER)
+    fetch( mysqlServer + serverRoute + "" +JSON.stringify(ADD_ITEM_ORDER) + "" )
+    .then(res => res.json())
+    .then(
+      (result) => {
+          console.log("Reponce -> " + result)
+        this.setState({
+            responce:result
+        });
+        this.connectedToServer(true);
+        console.log("CONNECTTED TO SERVER");
+  
+      },
+      (error) => {
+       this.connectedToServer(false);
+        console.log("FAILED TO CONNECT TO SERVER");
 
+      }
+    )
+  }
+connectedToServer(connected){
+    if(connected){
+        //CONNECTED TO SERVER
+        console.log(this.state.responce)
+        if(this.state.responce ){
+            this.setState(
+                {
+                    connected:true
+                }
+            );
+        }else{
+            // Connected TO SERVER, BUT DID NOT SUCESSFULL SIGNUP
+        }
+    }else{
+        // DID NOT CONNECT TO SERVER
+    }
+}
   handleCancel = () => this.setState({ previewVisible: false });
+
+  normFile = e => {
+    console.log('Upload event:', e);
+  
+    if (Array.isArray(e)) {
+      return e;
+    }
+  
+    return e && e.fileList;
+  };
+  
+  
 
   handlePreview = async (file) => {
     if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
+      file.preview = await this.getBase64(file.originFileObj);
     }
-
     this.setState({
       previewImage: file.url || file.preview,
       previewVisible: true,
@@ -41,8 +96,29 @@ class AddItem extends React.Component {
         file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
     });
   };
+  print(){
+    console.log("IMAGE :")
+    console.log(this.state.fileList[0])
+    console.log("IMAGE1 :")
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+    console.log(this.state.fileList[1].response.url)
+    console.log("IMAGE2 :")
+
+    console.log(this.getBase64(this.state.fileList[0].originFileObj));
+
+  }
+  handleChange = ({ fileList }) => {
+    this.setState({ fileList });
+      console.log("handleChang" + fileList[0])
+  };
+  onFinishFailed = () => {}
+  onFinish = (values) =>{
+    console.log(values)
+    console.log(values.user.name)
+    console.log(values.user.age)
+   // this.addItemFetch({username:values.user.name});
+   this.print();
+  }
 
   render() {
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
@@ -54,19 +130,26 @@ class AddItem extends React.Component {
     );
     return (
       <div>
-        <Form {...Layout}>
+        <Form onFinish={this.onFinish} onFinishFailed={this.onFinishFailed}>
           <Row>
             <Col span={12}>
+            <Form.Item
+                name={"images"}
+                label="Item Name"
+                rules={[{ required: true }]}
+              >
               <div className="clearfix">
-                <Upload
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                <Upload 
+                  action="test.jpg"
                   listType="picture-card"
                   fileList={fileList}
                   onPreview={this.handlePreview}
                   onChange={this.handleChange}
+                  getValueFromEvent={this.normFile}
                 >
                   {fileList.length >= 8 ? null : uploadButton}
                 </Upload>
+                
                 <Modal
                   visible={previewVisible}
                   title={previewTitle}
@@ -79,7 +162,9 @@ class AddItem extends React.Component {
                     src={previewImage}
                   />
                 </Modal>
+          
               </div>
+              </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
@@ -92,7 +177,7 @@ class AddItem extends React.Component {
               <Form.Item
                 name={["user", "age"]}
                 label="Price"
-                rules={[{ type: "number", min: 0 }]}
+                rules={[{ required: true, type: "number", min: 0 }]}
               >
                 <InputNumber />
               </Form.Item>
@@ -101,8 +186,9 @@ class AddItem extends React.Component {
           <Row>
             <Col span={20}>
               <Form.Item
-                name={["user", "introduction"]}
+                name={["user", "shortDescription"]}
                 label="Short Description of Item"
+                rules={[{ required: true }]}
               >
                 <Input.TextArea />
               </Form.Item>
@@ -111,8 +197,10 @@ class AddItem extends React.Component {
           <Row gutter={[10, 10]}>
             <Col span={20}>
               <Form.Item
-                name={["user", "introduction"]}
+                name={["user", "descrition"]}
                 label="Long Description of Iterm"
+                rules={[{ required: true }]}
+
               >
                 <Input.TextArea />
               </Form.Item>

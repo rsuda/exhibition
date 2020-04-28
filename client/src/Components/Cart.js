@@ -8,7 +8,7 @@ class Cart extends React.Component {
         super(props);
     }
     state = {
-        responce: null,
+        response: null,
         checkout: false,
         success: false,
         data: null
@@ -75,9 +75,9 @@ class Cart extends React.Component {
             .then(res => res.json())
             .then(
               (result) => {
-                console.log("RESPONCE FROM SERVER : " + result.credentials);
+                console.log("RESPONSE FROM SERVER : " + result.credentials);
                 this.setState({
-                  responce: result,
+                  response: result,
                   success: true
                 });
                 console.log("login.loginFetch -> CONNECTTED TO SERVER");
@@ -99,7 +99,7 @@ class Cart extends React.Component {
     
     if(didConnect){
         // CONNECTED TO SERVER
-        this.state.data = this.state.responce.cartArray;
+        this.state.data = this.state.response.data;
       
   }else{
 
@@ -111,7 +111,7 @@ class Cart extends React.Component {
 
 }
 componentDidMount(){
-    this.cartFetch();
+    this.cartFetch({username:this.props.username});
 }
     handleClick = (values) =>{
         this.setState(

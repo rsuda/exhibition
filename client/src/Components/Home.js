@@ -9,27 +9,42 @@ class Home extends React.Component{
         super(props);
     }
     state = {
-
+        response:null,
         username:this.props.username,
-        search:"Recommended"
+        search:"Recommended",
+        items:[]
     }
-    homeFetch(SIGNUP_INFOMATION){
+    connectedToServer(connected){
+        if(connected){
+            this.setState(
+                {
+                    items: this.response.miniItems
+                }
+            );
+        }else{
+
+        }
+    }
+    homeFetch(SEARCH_INFOMATION){
         let mysqlServer="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081";
-        let serverRoute="/search:";
-        fetch( mysqlServer + serverRoute + JSON.stringify(SIGNUP_INFOMATION))
+        let serverRoute="/Search:";
+        fetch( mysqlServer + serverRoute + JSON.stringify(SEARCH_INFOMATION))
         .then(res => res.json())
         .then(
           (result) => {
             console.log(result);
             
             console.log("CONNECTTED TO SERVER");
-      
+            this.connectedToServer(true);
           },
+          
           (error) => {
            
             console.log("FAILED TO CONNECT TO SERVER");
-
+            this.connectedToServer(false);
           }
+         
+
         )
       }
     updateWebcontainer(){
@@ -48,27 +63,25 @@ class Home extends React.Component{
             console.log("Home -> Update.search");
             this.setState(
                 {
-                    search:search
+                    search:search,
+                   
                 }
             );
             this.homeFetch({search:search});
 
         }
         console.log("Home -> NO UPDATE")
+        
 
     }
     render(){
-       let numbers = [[<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>],
-       [<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>,<MiniItem/>],
-    ]
+
     //const { search } = ;
 
         this.updateWebcontainer();
         return (
             <div>
-                <MiniItemRow />
-                <MiniItemRow />
-                <MiniItemRow />
+                <MiniItemRow items={this.state.items}/>
             </div>
 
         );

@@ -14,29 +14,18 @@ constructor(props){
             margin: '10',
             padding: '10'
         }
+        console.log(this.props.items)
+        let renderItems = this.props.items.map((obj,i) => {
+            console.log(obj.name)
+           return ( 
+           <Col span={6}>
+                     <MiniItem key={obj.uniqueid} pic={obj.pic} uniqueId={obj.uniqueid} name={obj.name}/>
+            </Col      >
+           )
+        });
         return (
             <Row  gutter={[10, 10]}>
-                <Col span={6}>
-               
-                     <MiniItem name={"test1"}/>
-                     </Col>
-
-                <Col span={6}>
-                
-                     <MiniItem name={"test2"}/>
-              
-                </Col>
-
-                <Col span={6}>
-                
-                <MiniItem name={"test3"}/>
-         
-           </Col>
-                <Col span={6}>
-                
-                <MiniItem name={"test4"}/>
-         
-           </Col>           
+               {renderItems}
             </Row>
         );
     }
