@@ -58,7 +58,7 @@ return (
             <Route path="/Signup" exact component={Signup}/>
             <Route path="/Item" exact component={Item}/>
             <Route path="/Checkout" exact component={Checkout}/>
-            <Route path="/AddItem" exact component={AddItem}/>
+            <Route path="/AddItem/:username" exact component={(props)=> <AddItem {...props} username={this.state.username}/>}/>
         </Switch>
       
       </Layout>

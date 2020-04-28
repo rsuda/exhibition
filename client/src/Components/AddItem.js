@@ -1,10 +1,12 @@
 import React from "react";
-import { Row, Col, Layout } from "antd";
-import { Form, Input, InputNumber, Button } from "antd";
+import { Row, Col, Layout ,Divider} from "antd";
+import { Form, Input, InputNumber, Button,Select } from "antd";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import "./CSS_FILES/AddItem.css";
 import 'console.image';
+import { number } from "prop-types";
+//  import { Divider } from "rc-menu";
 
 
 
@@ -12,6 +14,7 @@ const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 8 },
 };
+const { Option } = Select;
 
 class AddItem extends React.Component {
   state = {
@@ -21,7 +24,10 @@ class AddItem extends React.Component {
     fileList: [],
     responce:null,
     imageList:[],
-    connected:false
+    connected:false,
+    optionalInputsStr:[],
+    optionalInputsNum:[]
+
   };
   getBase64 = (file) =>{
     return new Promise((resolve, reject) => {
@@ -111,6 +117,9 @@ connectedToServer(connected){
     this.setState({ fileList });
       console.log("handleChang" + fileList[0])
   };
+  handleChangeSelect = (values) => {
+    console.log(values)
+  };
   onFinishFailed = () => {}
   onFinish = (values) =>{
     console.log(values)
@@ -119,20 +128,104 @@ connectedToServer(connected){
    // this.addItemFetch({username:values.user.name});
    this.print();
   }
+  onFinishInputStr = (values) =>{
+    let temp = this.state.optionalInputsStr
+    temp.push(values);
+    this.setState({
+      optionalInputsStr:temp
+    });
+  }
+  onFinishInputNum = (values) =>{
+    let temp = this.state.optionalInputsNum
+    temp.push(values);
+    this.setState({
+      optionalInputsNum:temp
+    });
+  }
+  onButtonClick = (values) => {
+    console.log(values);
+    this.setState({
+        confirmPage:true,
+    })
+}
 
   render() {
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
+    console.image(previewImage)
     const uploadButton = (
       <div>
         <PlusOutlined />
         <div className="ant-upload-text">Upload picture</div>
       </div>
     );
+let numberInput = (
+    <Col span={12}>
+      <Divider>Number Input</Divider>
+      <Form onFinish={this.onFinishInputNum} onFinishFailed={this.onFinishFailedInputNum}>
+       <Form.Item name={"numLabel"} label={"Name of input"}> 
+                <Input />
+      </Form.Item>
+       <Form.Item name={"min"} label={"min"} rules={[]}> 
+                <InputNumber />
+      </Form.Item>
+      <Form.Item name={"max"} label={"max"} rules={[]}> 
+                <InputNumber />
+      </Form.Item>
+      <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                <Button type="primary" htmlType="submit">
+                  Add Item
+                </Button>
+      </Form.Item>
+    </Form>
+
+    </Col>
+  );
+
+  let stringInput = (
+    <Col span={12}>
+      <Divider>String input</Divider>
+      <Form onFinish={this.onFinishInputStr} onFinishFailed={this.onFinishFailedInputStr}>
+       <Form.Item name={"strLabel"} label={"Name of input"}> 
+                <Input />
+      </Form.Item>
+       <Form.Item name={"options"} label={"String input seperated by comma"} rules={[]}> 
+                <Input />
+      </Form.Item>
+      <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                <Button type="primary" htmlType="submit">
+                  Add Item
+                </Button>
+      </Form.Item>
+    </Form>
+
+    </Col>
+  );
+  let optionalsNum = this.state.optionalInputsNum.map((obj,i)=> {
+
     return (
+     
+     <li>{"Optional Number " + (i + 1)} <ul> <li> {"Name : " + obj.numLabe}</li><li> { "max: " + obj.max} </li><li>{" min : " + obj.min}</li></ul></li>
+
+    );
+  });
+  let optionalsStr = this.state.optionalInputsStr.map((obj,i)=> {
+
+    return (
+     
+     <li>{"Optional String " + (i + 1)} <ul> <li>{"Name : " + obj.strLabel}</li><li>{"options: " + obj.options}</li></ul></li>
+
+    );
+  });
+  
+    return (
+
       <div>
         <Form onFinish={this.onFinish} onFinishFailed={this.onFinishFailed}>
+        <Divider orientation="left">Add an item to your Store, {this.props.username}</Divider>
+
           <Row>
             <Col span={12}>
+            <Divider>Upload Images</Divider>
             <Form.Item
                 name={"images"}
                 label="Item Name"
@@ -167,6 +260,8 @@ connectedToServer(connected){
               </Form.Item>
             </Col>
             <Col span={12}>
+            <Divider>Item information</Divider>
+
               <Form.Item
                 name={["user", "name"]}
                 label="Item Name"
@@ -183,7 +278,11 @@ connectedToServer(connected){
               </Form.Item>
             </Col>
           </Row>
+
+
           <Row>
+          <Divider>Description</Divider>
+
             <Col span={20}>
               <Form.Item
                 name={["user", "shortDescription"]}
@@ -206,13 +305,37 @@ connectedToServer(connected){
               </Form.Item>
               <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
                 <Button type="primary" htmlType="submit">
-                  Submit
+                  Save
                 </Button>
               </Form.Item>
             </Col>
           </Row>
         </Form>
+        <Row>
+          <Divider>Optional input boxes</Divider>
+            {stringInput }
+            {numberInput}
+          </Row>
+          <Row>
+            <Col span={12}>
+              <ul>
+              {optionalsStr}
+
+                </ul>
+              </Col>
+              <Col span={12}>
+
+                <ul>
+                {optionalsNum}
+                </ul>
+            </Col>
+
+           </Row> 
+          <Button onClick={this.onButtonClick} type="primary" block>
+          ADD CONFIRMATION PAGE
+        </Button>
       </div>
+     
     );
   }
 }

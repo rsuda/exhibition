@@ -97,7 +97,8 @@ onButtonClick = (values) => {
         </>
         );
     }else{
-       return <Redirect to="/AddItem"/>
+        let routePath="/AddItem/"+ this.props.username
+       return <Redirect to={routePath}/>
     }
   }
 }
