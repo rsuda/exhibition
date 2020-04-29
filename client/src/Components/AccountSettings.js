@@ -3,6 +3,7 @@ import { Form, Input, InputNumber, Button } from "antd";
 import { Row, Col, Divider } from "antd";
 import FormItem from "antd/lib/form/FormItem";
 
+
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 8 },
@@ -20,6 +21,68 @@ const validateMessages = {
 };
 
 class AccountSettings extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      response:null,
+    }
+  }
+
+  accoutSettingsFetch(LOGIN_INFORMATION,ROUTE){
+    //console.log(LOGIN_INFORMATION);
+   // console.log(JSON.stringify(LOGIN_INFORMATION));
+    let mysqlServer="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081";
+    let serverRoute=ROUTE;
+    fetch( mysqlServer + serverRoute + "" +  JSON.stringify(LOGIN_INFORMATION) + "" )
+    .then(res => res.json())
+    .then(
+      (result) => {
+        console.log("RESPONSE FROM SERVER : " + result.credentials);
+        this.setState({
+          response: result,
+          success: true
+        });
+        console.log("login.loginFetch -> CONNECTTED TO SERVER");
+        this.connectedToServer(true);
+      },
+      (error) => {
+        this.setState({
+          isLogin: false,
+          success: false,
+          error
+        });
+        this.connectedToServer(false)
+        console.log("FAILED TO CONNECT TO SERVER");
+      }
+    )
+  }
+  
+    connectedToServer(didConnect){      
+      
+        if(didConnect){
+  
+          this.correctCredentials(this.state.responce.credentials);
+  
+          if(this.state.isLogin){ // Login Route responded sucessfully
+  
+            console.log("Login was as, username: " + this.state.responce.username);
+            
+  
+          } else if(!this.state.isLogin) {
+    
+            console.log("Credentials are wrong!!!!!");
+    
+          }
+      }else{
+  
+            //DO SOMETHING HERE IF DIDNT CONNECT TO SERVER
+      }
+      
+        
+    
+  
+    }
+
   render() {
     return (
       <div>
@@ -31,8 +94,22 @@ class AccountSettings extends React.Component {
           </Divider>
         <Form {...layout}>
           
+        <Form.Item
+            name="currentPassword"
+            label="Current Password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password />
+          </Form.Item>
+
           <Form.Item
-            name="password"
+            name="newPassword"
             label="New Password"
             rules={[
               {

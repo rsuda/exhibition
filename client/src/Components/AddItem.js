@@ -6,6 +6,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import "./CSS_FILES/AddItem.css";
 import 'console.image';
 import { number } from "prop-types";
+import {Redirect} from 'react-router-dom';
 //  import { Divider } from "rc-menu";
 
 
@@ -216,7 +217,9 @@ let numberInput = (
 
     );
   });
-  
+  if(this.state.confirmPage){
+    return <Redirect to="/AddItem/Confirmation/username"/>
+  }else {
     return (
 
       <div>
@@ -337,6 +340,7 @@ let numberInput = (
       </div>
      
     );
+  }
   }
 }
 export default AddItem;

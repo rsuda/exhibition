@@ -14,6 +14,7 @@ import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import PreviousOrders from './PreviousOrders.js';
 import Checkout from './Checkout.js';
 import AddItem from './AddItem.js';
+import AddItemConfirmation from './AddItemConfirmation.js';
 
 
 class WebpageContainer extends React.Component{
@@ -58,7 +59,8 @@ return (
             <Route path="/Signup" exact component={Signup}/>
             <Route path="/Item" exact component={Item}/>
             <Route path="/Checkout" exact component={Checkout}/>
-            <Route path="/AddItem/:username" exact component={(props)=> <AddItem {...props} username={this.state.username}/>}/>
+            <Route path="/AddItem/:username" exact component={(props) => <AddItem {...props} username={this.state.username}/>}/>
+            <Route path="/AddItem/Confirmation/:username" exact component={(props) => <AddItemConfirmation {...props} username={this.state.username}/>}/>
         </Switch>
       
       </Layout>
