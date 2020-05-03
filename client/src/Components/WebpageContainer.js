@@ -40,7 +40,6 @@ homeCallBackFunction = (data) => {
 
 render(){
   //console.log("Current Tab:" + this.state.currentTab);
-  let page = "";
   // page = this.SwitchPage1();
 return ( 
   <Router>
@@ -48,14 +47,13 @@ return (
         <WebpageNav username={this.state.username}/>
         <ItemSearch username={this.state.username}/>   
         <Switch> 
-          {console.log("testtest")}
             <Route path="/" exact component={Home}/>  
             <Route path="/Home/:search/:username" exact component={(props)=> <Home {...props}parentCallBackFunction = {this.homeCallBackFunction}  username={this.state.username} /> } />
             <Route path="/Login" exact component={Login}/>
             <Route path="/Cart/:username" exact component={(props)=> <Cart {...props} username={this.state.username}/>}/>
             <Route path="/Sell/:username" exact component={(props)=> <Sell {...props} username={this.state.username}/>}/>
             <Route path="/PreviousOrders/:username" exact component={(props)=> <PreviousOrders {...props} username={this.state.username}/>}/>
-            <Route path="/AccountSettings" exact component={AccountSettings }/>
+            <Route path="/AccountSettings/:username" exact component={(props)=> <AccountSettings {...props} username={this.state.username}/> }/>
             <Route path="/Signup" exact component={Signup}/>
             <Route path="/Item" exact component={Item}/>
             <Route path="/Checkout" exact component={Checkout}/>

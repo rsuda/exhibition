@@ -2,6 +2,7 @@ import React from 'react';
 import "antd/dist/antd.css";
 import { Form, Input, Button, Checkbox, Divider} from 'antd';
 import {Redirect} from "react-router-dom";
+import fetchServer from "./fetchServer";
 
 class Login extends React.Component{
   constructor(props){
@@ -61,30 +62,28 @@ loginFetch(LOGIN_INFORMATION){
   .then(
     (result) => {
       console.log("RESPONCE FROM SERVER : " + result.credentials);
-      this.setState({
-        responce: result,
-        success: true
-      });
+      
       console.log("login.loginFetch -> CONNECTTED TO SERVER");
       this.connectedToServer(true);
     },
     (error) => {
-      this.setState({
-        isLogin: false,
-        success: false,
-        error
-      });
+     
       this.connectedToServer(false)
       console.log("FAILED TO CONNECT TO SERVER");
     }
   )
 }
 
-  connectedToServer(didConnect){      
-    
-      if(didConnect){
+  connectedToServer(response){      
+    console.log("response   " + response.connected)
+      if(response.connected){
 
-        this.correctCredentials(this.state.responce.credentials);
+        this.setState({
+          responce: response.result,
+          success: true
+        });
+        console.log(response.result.credentials)
+        this.correctCredentials(response.result.credentials);
 
         if(this.state.isLogin){ // Login Route responded sucessfully
 
@@ -92,7 +91,11 @@ loginFetch(LOGIN_INFORMATION){
           
 
         } else if(!this.state.isLogin) {
-  
+          this.setState({
+            isLogin: false,
+            success: false,
+            error:response.error
+          });
           console.log("Credentials are wrong!!!!!");
   
         }
@@ -114,14 +117,9 @@ loginFetch(LOGIN_INFORMATION){
 
 onFinish = values => {
 
-    // console.log("Values recieved from login.form \n"  + values.username + "\n" + values.password );
-    this.loginFetch({user: values.username, pass: values.password});
-    
-
-      // DO SOMETHING HERE TELL USER THIS SERVER IS DOWN
-
-
-   
+    let fetch = new fetchServer();
+    let response = fetch.fetchRouteServer("/Login:" , {user: values.username, pass: values.password} );
+    this.connectedToServer(response);
 
 };
   render() {

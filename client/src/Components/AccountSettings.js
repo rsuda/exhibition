@@ -25,6 +25,7 @@ class AccountSettings extends React.Component {
     super(props)
     this.state = {
       response:null,
+      message:""
     }
   }
 
@@ -37,12 +38,11 @@ class AccountSettings extends React.Component {
     .then(res => res.json())
     .then(
       (result) => {
-        console.log("RESPONSE FROM SERVER : " + result.credentials);
         this.setState({
           response: result,
           success: true
         });
-        console.log("login.loginFetch -> CONNECTTED TO SERVER");
+        console.log("****** accountSettings.Fetch -> CONNECTTED TO SERVER *******");
         this.connectedToServer(true);
       },
       (error) => {
@@ -52,7 +52,7 @@ class AccountSettings extends React.Component {
           error
         });
         this.connectedToServer(false)
-        console.log("FAILED TO CONNECT TO SERVER");
+        console.log("****** accountSettings.Fetch -> " + " FAILED TO CONNECT TO SERVER *******");
       }
     )
   }
@@ -60,17 +60,25 @@ class AccountSettings extends React.Component {
     connectedToServer(didConnect){      
       
         if(didConnect){
+    
+          if(this.state.response.changedPass){ // Login Route responded sucessfully
   
-          this.correctCredentials(this.state.responce.credentials);
-  
-          if(this.state.isLogin){ // Login Route responded sucessfully
-  
-            console.log("Login was as, username: " + this.state.responce.username);
+            console.log("SUCESSFULLY CHANGED PASSWORD");
+            this.setState(
+              {
+                message:"Sucessfully changed password!"
+              }
+            );
             
   
-          } else if(!this.state.isLogin) {
+          } else if(!this.state.response.changedPass) {
     
-            console.log("Credentials are wrong!!!!!");
+            console.log("FAILED TO CHANGE PASSWORD");
+            this.setState(
+              {
+                message:"Failed to change password :("
+              }
+            );
     
           }
       }else{
@@ -82,6 +90,11 @@ class AccountSettings extends React.Component {
     
   
     }
+    onFinishPassword = (values) => {
+      console.log(values)
+console.log(this.props.username)
+      this.accoutSettingsFetch({username:this.props.username,currentPassword:values.currentPassword,newPassword:values.newPassword},"/ChangePassword")
+    }
 
   render() {
     return (
@@ -92,7 +105,7 @@ class AccountSettings extends React.Component {
           >
             Change Password
           </Divider>
-        <Form {...layout}>
+        <Form {...layout } onFinish={this.onFinish}>
           
         <Form.Item
             name="currentPassword"
@@ -134,7 +147,7 @@ class AccountSettings extends React.Component {
               },
               ({ getFieldValue }) => ({
                 validator(rule, value) {
-                  if (!value || getFieldValue("password") === value) {
+                  if (!value || getFieldValue("newPassword") === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject(
@@ -152,6 +165,7 @@ class AccountSettings extends React.Component {
             </Button>
           </Form.Item>
         </Form>
+       <h3> {this.state.message} </h3>
         <Divider
             orientation="left"
             style={{ color: "#333", fontWeight: "normal" }}
