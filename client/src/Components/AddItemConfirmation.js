@@ -1,7 +1,5 @@
 import React from "react";
 import { Button, Select, Divider } from "antd";
-import { Typography, Row, Col } from "antd";
-import { Carousel } from "antd";
 import "./CSS_FILES/Item.css";
 import Item from "./Item.js";
 

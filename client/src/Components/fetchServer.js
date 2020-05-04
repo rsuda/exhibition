@@ -19,7 +19,6 @@ class fetchServer {
         console.log("Data Received : " + JSON.stringify(serverResponse) )
         console.log("=====================================")
        this.updateResponse(true,serverResponse);
-       test = false;
       },
       (error) => {
         this.connectedToServer(false)
@@ -27,7 +26,6 @@ class fetchServer {
         console.log("Error received : " + error);
         console.log("===============================")
         this.updateResponse(false,error);
-        test = false
     }
     )
     var now = new Date().getTime();

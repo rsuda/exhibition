@@ -117,8 +117,7 @@ loginFetch(LOGIN_INFORMATION){
 
 onFinish = values => {
 
-    let fetch = new fetchServer();
-    let response = fetch.fetchRouteServer("/Login:" , {user: values.username, pass: values.password} );
+   let response = this.loginFetch({user: values.username, pass: values.password} );
     this.connectedToServer(response);
 
 };

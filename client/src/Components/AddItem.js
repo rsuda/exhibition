@@ -18,6 +18,7 @@ const layout = {
 const { Option } = Select;
 
 class AddItem extends React.Component {
+  img = [];
   state = {
     previewVisible: false,
     previewImage: "",
@@ -114,9 +115,25 @@ connectedToServer(connected){
     console.log(this.getBase64(this.state.fileList[0].originFileObj));
 
   }
-  handleChange = ({ fileList }) => {
+  fileReader = new FileReader();
+
+  handleChange = ( info ) => {
+    console.log(Object.keys(info["fileList"]))
+    let fileList = info["fileList"].map(file => {
+      if (file.response) {
+        console.log(file)
+        // Component will show file.url as link
+        file.url = file.response.url;
+
+        this.fileReader.readAsText(file.originFileObj)
+        console.image(file.thumbUrl)
+        console.log(file.url);
+      }
+      return file;
+    });
+
     this.setState({ fileList });
-      console.log("handleChang" + fileList[0])
+      console.log("handleChange" + (fileList[0].url))
   };
   handleChangeSelect = (values) => {
     console.log(values)
@@ -151,7 +168,11 @@ connectedToServer(connected){
 }
 
   render() {
+    
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
+    this.img.push(previewImage)
+    console.log(Object.keys((fileList)));
+
     console.image(previewImage)
     const uploadButton = (
       <div>
@@ -236,7 +257,7 @@ let numberInput = (
               >
               <div className="clearfix">
                 <Upload 
-                  action="test.jpg"
+                  action="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081/AddPic:test.png"
                   listType="picture-card"
                   fileList={fileList}
                   onPreview={this.handlePreview}
@@ -257,6 +278,7 @@ let numberInput = (
                     style={{ width: "100%" }}
                     src={previewImage}
                   />
+
                 </Modal>
           
               </div>
@@ -337,6 +359,7 @@ let numberInput = (
           <Button onClick={this.onButtonClick} type="primary" block>
           ADD CONFIRMATION PAGE
         </Button>
+        <img src={this.img.pop} alt="EXAMPLE"/>
       </div>
      
     );

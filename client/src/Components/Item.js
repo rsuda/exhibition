@@ -14,9 +14,45 @@ class Item extends React.Component{
   /*  Constructor(String){
         super();
     }*/
+    cartFetch(ADD_ITEM_CART){
+        //console.log(LOGIN_INFORMATION);
+       // console.log(JSON.stringify(LOGIN_INFORMATION));
+        let mysqlServer="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081";
+        let serverRoute="/AddCart:";
+        fetch( mysqlServer + serverRoute + "" +  JSON.stringify(ADD_ITEM_CART) + "" )
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log("RESPONSE FROM SERVER : " + result.credentials);
+           
+            console.log("ITEM.ADD_TO_CART -> CONNECTTED TO SERVER");
+            this.connectedToServer(true);
+          },
+          (error) => {
+            
+            this.connectedToServer(false)
+            console.log("FAILED TO CONNECT TO SERVER");
+          }
+        )
+      }
 
+connectedToServer(didConnect){      
+
+if(didConnect){
+    // CONNECTED TO SERVER
+    this.state.data = this.state.response.data;
+  
+}else{
+
+    //DO SOMETHING HERE IF DIDNT CONNECT TO SERVER
+}
+
+
+
+
+}
     handleChange(value) {
-        console.log(`selected ${value}`);
+       this.cartFetch({username:this.props.username,uniqueid:this.props.uniqueid});
       }
   render() {
     const { Option } = Select;
@@ -69,7 +105,7 @@ class Item extends React.Component{
     <Option value="XL">XL</Option>
     </Select> <p></p>
     
-        <Button type="dashed" onClick="">Add to Cart</Button>
+        <Button type="dashed" onClick={this.handleChange}>Add to Cart</Button>
         <Paragraph > <ul><li>100% Cotton Sport Grey And Antique Heather</li>
 <li>Pull On closure</li>
 <li>Machine Wash</li>

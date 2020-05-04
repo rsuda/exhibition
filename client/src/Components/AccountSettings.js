@@ -92,7 +92,7 @@ class AccountSettings extends React.Component {
     }
     onFinishPassword = (values) => {
       console.log(values)
-console.log(this.props.username)
+      console.log(this.props.username)
       this.accoutSettingsFetch({username:this.props.username,currentPassword:values.currentPassword,newPassword:values.newPassword},"/ChangePassword")
     }
 
