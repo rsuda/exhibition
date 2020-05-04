@@ -8,7 +8,7 @@ class Login extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      responce: null,
+      responcs: null,
       error: null,
       isLogin: false,
       username: "Not-Logged-In",
@@ -47,7 +47,7 @@ correctCredentials(credentialResponce){
   if(credentialResponce){
     this.setState({
       isLogin: true,
-      username: this.state.responce.username
+      username: this.state.responce
     })
   }
 }
@@ -61,10 +61,12 @@ loginFetch(LOGIN_INFORMATION){
   .then(res => res.json())
   .then(
     (result) => {
-      console.log("RESPONCE FROM SERVER : " + result.credentials);
-      
+      console.log("RESPONCE FROM SERVER : " + result.username);
+      this.setState({
+        response :result.username
+      })
       console.log("login.loginFetch -> CONNECTTED TO SERVER");
-      this.connectedToServer(true);
+      this.connectedToServer(result);
     },
     (error) => {
      
@@ -75,19 +77,19 @@ loginFetch(LOGIN_INFORMATION){
 }
 
   connectedToServer(response){      
-    console.log("response   " + response.connected)
-      if(response.connected){
+    console.log("response   " + response.credentials)
+      if(response){
 
         this.setState({
           responce: response.result,
           success: true
         });
-        console.log(response.result.credentials)
-        this.correctCredentials(response.result.credentials);
+        console.log(response.credentials)
+        this.correctCredentials(response.credentials);
 
         if(this.state.isLogin){ // Login Route responded sucessfully
 
-          console.log("Login was as, username: " + this.state.responce.username);
+          console.log("Login was as, username: " + this.state.response);
           
 
         } else if(!this.state.isLogin) {
@@ -118,7 +120,7 @@ loginFetch(LOGIN_INFORMATION){
 onFinish = values => {
 
    let response = this.loginFetch({user: values.username, pass: values.password} );
-    this.connectedToServer(response);
+    //this.connectedToServer(this.state.response.result);
 
 };
   render() {
@@ -153,7 +155,7 @@ onFinish = values => {
         </div>
       );
     } else if(this.state.isLogin){
-      let routePath = "/Home" + "/recommended/" + this.state.username;
+      let routePath = "/Home" + "/recommended/" + this.state.response;
         return (
           <div>
             <h1>test</h1>

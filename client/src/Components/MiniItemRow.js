@@ -16,10 +16,10 @@ constructor(props){
         }
         console.log(this.props.items)
         let renderItems = this.props.items.map((obj,i) => {
-            console.log(obj.name)
+            console.log(obj.name + " " + obj.uniqueid)
            return ( 
            <Col span={6}>
-                     <MiniItem key={obj.uniqueid} pic={obj.pic} uniqueId={obj.uniqueid} name={obj.name}/>
+                     <MiniItem key={obj.uniqueid} pic={obj.pic} uniqueid={obj.uniqueid} name={obj.name}/>
             </Col      >
            )
         });

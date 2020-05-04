@@ -34,9 +34,15 @@ handleChange(SELECTED_ITEM){
             
         );
       }else{
-          let routePath = "/Item/"+ this.state.item;
+          let routePath = "/Item" + this.item ;
+          console.log("unique id"+ this.props.uniqueid)
           return (
-            <Redirect to={routePath}/>
+            <Redirect to={{
+                pathname:"/Item",
+                state:{
+                    uniqueid:this.props.uniqueid
+                }
+            }}/>
           );
       }
     }

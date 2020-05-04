@@ -34,11 +34,12 @@ class Cart extends React.Component {
             render: (text) => <a>{text}</a>,
         },
         {
-            title: "SubTotal",
+            title: "Subtotal",
             dataIndex: "SubTotal",
             key: "SubTotal",
             render: (text) => <a>{text}</a>,
         },
+
         ];
         data = [
             {
@@ -75,7 +76,7 @@ class Cart extends React.Component {
             .then(res => res.json())
             .then(
               (result) => {
-                console.log("RESPONSE FROM SERVER : " + result.credentials);
+                console.log("RESPONSE FROM SERVER : " + result);
                 this.setState({
                   response: result,
                   success: true
@@ -99,8 +100,9 @@ class Cart extends React.Component {
     
     if(didConnect){
         // CONNECTED TO SERVER
-        this.state.data = this.state.response.data;
-      
+        console.log(this.state.response.data)
+        this.state.data = this.state.response;
+        console.log(this.state.data);
   }else{
 
         //DO SOMETHING HERE IF DIDNT CONNECT TO SERVER
@@ -111,6 +113,7 @@ class Cart extends React.Component {
 
 }
 componentDidMount(){
+    console.log(this.props.username)
     this.cartFetch({username:this.props.username});
 }
     handleClick = (values) =>{
@@ -127,7 +130,7 @@ componentDidMount(){
             return (
             <div>
                 <Divider orientation="left"> Cart </Divider>
-                <Table dataSource={this.state.data} columns={this.col} />
+                <Table dataSource={this.data} columns={this.col} />
                 <Button onClick={this.handleClick} type="primary">Checkout</Button>
                 <h5>TOTAL : $6,250.00</h5>
             </div>

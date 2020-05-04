@@ -28,7 +28,11 @@ class AddItem extends React.Component {
     imageList:[],
     connected:false,
     optionalInputsStr:[],
-    optionalInputsNum:[]
+    optionalInputsNum:[],
+    price:"",
+    description: "",
+    miniDescription:"",
+    name:""
 
   };
   getBase64 = (file) =>{
@@ -115,17 +119,21 @@ connectedToServer(connected){
     console.log(this.getBase64(this.state.fileList[0].originFileObj));
 
   }
-  fileReader = new FileReader();
+  reader = new FileReader();
 
   handleChange = ( info ) => {
-    console.log(Object.keys(info["fileList"]))
+    console.log("filelist keys " + Object.keys(info["fileList"]))
     let fileList = info["fileList"].map(file => {
       if (file.response) {
-        console.log(file)
+        //console.log(file)
         // Component will show file.url as link
         file.url = file.response.url;
 
-        this.fileReader.readAsText(file.originFileObj)
+     //   this.reader.readAsDataURL(file)
+       // this.reader.onload = () => {
+         // this.reader.result;
+        //}
+      //this.reader.onerror = (error) => (console.log(error));
         console.image(file.thumbUrl)
         console.log(file.url);
       }
@@ -140,6 +148,13 @@ connectedToServer(connected){
   };
   onFinishFailed = () => {}
   onFinish = (values) =>{
+    console.log("Item ->" + values.user.price)
+    this.setState({    
+      price: values.user.price,
+      description: values.user.description,
+      miniDescription:values.user.shortDescription,
+      name:values.user.name
+    });
     console.log(values)
     console.log(values.user.name)
     console.log(values.user.age)
@@ -161,7 +176,7 @@ connectedToServer(connected){
     });
   }
   onButtonClick = (values) => {
-    console.log(values);
+    console.log("asdf" + values);
     this.setState({
         confirmPage:true,
     })
@@ -239,7 +254,15 @@ let numberInput = (
     );
   });
   if(this.state.confirmPage){
-    return <Redirect to="/AddItem/Confirmation/username"/>
+    return <Redirect to={{pathname:"/AddItem/Confirmation/username",
+                          state:{
+                            
+                              price:this.state.price,
+                              name:this.state.name,
+                              description:this.state.description,
+                              miniDescription:this.state.miniDescription,
+                          }
+  }}/>
   }else {
     return (
 
@@ -257,7 +280,7 @@ let numberInput = (
               >
               <div className="clearfix">
                 <Upload 
-                  action="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081/AddPic:test.png"
+                  action="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081/AddPic:"
                   listType="picture-card"
                   fileList={fileList}
                   onPreview={this.handlePreview}
@@ -295,7 +318,7 @@ let numberInput = (
                 <Input />
               </Form.Item>
               <Form.Item
-                name={["user", "age"]}
+                name={["user", "price"]}
                 label="Price"
                 rules={[{ required: true, type: "number", min: 0 }]}
               >
@@ -321,7 +344,7 @@ let numberInput = (
           <Row gutter={[10, 10]}>
             <Col span={20}>
               <Form.Item
-                name={["user", "descrition"]}
+                name={["user", "description"]}
                 label="Long Description of Iterm"
                 rules={[{ required: true }]}
 
@@ -359,7 +382,6 @@ let numberInput = (
           <Button onClick={this.onButtonClick} type="primary" block>
           ADD CONFIRMATION PAGE
         </Button>
-        <img src={this.img.pop} alt="EXAMPLE"/>
       </div>
      
     );

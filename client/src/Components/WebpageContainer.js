@@ -55,7 +55,7 @@ return (
             <Route path="/PreviousOrders/:username" exact component={(props)=> <PreviousOrders {...props} username={this.state.username}/>}/>
             <Route path="/AccountSettings/:username" exact component={(props)=> <AccountSettings {...props} username={this.state.username}/> }/>
             <Route path="/Signup" exact component={Signup}/>
-            <Route path="/Item" exact component={Item}/>
+            <Route path="/Item" exact component={(props)=> <Item {...props} name={"Laptop"}miniDescription={"mac book pro, High definition"} price={"1000.00"} username={this.state.username}/> }/>
             <Route path="/Checkout" exact component={Checkout}/>
             <Route path="/AddItem/:username" exact component={(props) => <AddItem {...props} username={this.state.username}/>}/>
             <Route path="/AddItem/Confirmation/:username" exact component={(props) => <AddItemConfirmation {...props} username={this.state.username}/>}/>

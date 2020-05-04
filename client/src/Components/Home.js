@@ -18,7 +18,7 @@ class Home extends React.Component{
         if(connected){
             this.setState(
                 {
-                    items: this.response.miniItems
+                    items: this.state.response
                 }
             );
         }else{
@@ -32,8 +32,10 @@ class Home extends React.Component{
         .then(res => res.json())
         .then(
           (result) => {
-            console.log(result);
-            
+            console.log(result.miniItems);
+            this.setState({
+                response:result.miniItems
+            });
             console.log("CONNECTTED TO SERVER");
             this.connectedToServer(true);
           },

@@ -11,9 +11,10 @@ import s4 from './images/Tshirt4.jpg';
 const { Paragraph } = Typography;
 
 class Item extends React.Component{
-  /*  Constructor(String){
-        super();
-    }*/
+  constructor(props){
+        super(props);
+        
+    }
     cartFetch(ADD_ITEM_CART){
         //console.log(LOGIN_INFORMATION);
        // console.log(JSON.stringify(LOGIN_INFORMATION));
@@ -35,6 +36,27 @@ class Item extends React.Component{
           }
         )
       }
+      itemFetch(getItem){
+        //console.log(LOGIN_INFORMATION);
+       // console.log(JSON.stringify(LOGIN_INFORMATION));
+        let mysqlServer="http://ec2-3-16-215-130.us-east-2.compute.amazonaws.com:8081";
+        let serverRoute="/Item:";
+        fetch( mysqlServer + serverRoute + "" +  JSON.stringify(getItem) + "" )
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log("RESPONSE FROM SERVER : " + result);
+            console.log("ITEM.ADD_TO_CART -> CONNECTTED TO SERVER");
+            this.connectedToServer(true);
+          },
+          (error) => {
+            
+            this.connectedToServer(false)
+            console.log("FAILED TO CONNECT TO SERVER");
+          }
+        )
+      }
+
 
 connectedToServer(didConnect){      
 
@@ -48,15 +70,16 @@ if(didConnect){
 }
 
 
-
-
 }
-    handleChange(value) {
+//componentDidMount(){
+  //  this.itemFetch({uniqueid:this.props.location.state.uniqueid});
+//}
+handleChange(value) {
        this.cartFetch({username:this.props.username,uniqueid:this.props.uniqueid});
       }
   render() {
     const { Option } = Select;
-
+//console.log(this.props.location.state.uniqueid)
     return (
       <div>
         {
@@ -82,7 +105,8 @@ if(didConnect){
   <Col span = {12}>
   <p style={{fontSize:32}}>
         
-            {"T-Shirt Bundle "}
+            {this.props.name}<br/>
+            {this.props.price}
 
   </p>
   {"Quantity "}<Select defaultValue="1" style={{ width: 75 }} onChange={this.handleChange}>
@@ -106,16 +130,11 @@ if(didConnect){
     </Select> <p></p>
     
         <Button type="dashed" onClick={this.handleChange}>Add to Cart</Button>
-        <Paragraph > <ul><li>100% Cotton Sport Grey And Antique Heather</li>
-<li>Pull On closure</li>
-<li>Machine Wash</li>
-<li>Seamless double needle collar</li>
-<li>Taped neck and shoulders for durability</li>
-<li>Double needle sleeve and bottom hem</li>
-<li>Tubular fit for minimal torque</li></ul>
+        <Paragraph > {this.props.miniDescription}
 </Paragraph>
       </Col>
       </Row>
+      {this.props.description}
       </div>
 
     );
